@@ -223,6 +223,10 @@ body {
     font-size: 56px;
   }
 
+  .board {
+    width: 680px;
+  }
+
   .right-sidebar {
     min-width: 20%;
   }
@@ -239,9 +243,6 @@ body {
     font-size: 48px;
   }
 
-  .board {
-    width: 720px;
-  }
 }
 
 @media (max-width: 1218px) {
