@@ -12,6 +12,13 @@ ul {
   list-style-type: none;
 }
 
+:root {
+  --grey_for_text: #bababa;
+  --dark_cell: #b58863;
+  --light_cell: #f0d9b5;
+  --white: #fff;
+}
+
 .header-menu {
   display: flex;
   justify-content: space-between;
@@ -22,11 +29,11 @@ ul {
   display: flex;
   align-items: center;
   cursor: pointer;
-  color: #bababa;
+  color: var(--grey_for_text);
 }
 
 .header-menu-item:hover {
-  color: white;
+  color: var(--white);
 }
 
 .theme-logo {
@@ -103,9 +110,8 @@ body {
 }
 
 .cell {
-  /*width: 100px;*/
   width: 12.5%;
-  aspect-ratio: 1/1;
+  aspect-ratio: 1;
 }
 
 .row {
@@ -113,17 +119,17 @@ body {
 }
 
 .white {
-  background-color: #f0d9b5;
+  background-color: var(--light_cell);
 }
 
 .black {
-  background-color: #b58863;
+  background-color: var(--dark_cell);
 }
 
 .coordinate {
   display: flex;
   font-size: 200px;
-  color: #fff;
+  color: var(--white);
   opacity: 0.7;
   user-select: none;
   pointer-events: none;
@@ -144,14 +150,13 @@ body {
 
 .right-sidebar {
   margin-right: 20px;
-  /*max-width: 480px;*/
   min-width: 30%;
 }
 
 .right-sidebar-title,
 .right-sidebar-score-text,
 .right-sidebar-time-text {
-  color: #bababa;
+  color: var(--grey_for_text);
   padding: 20px 0;
   border: 1px solid #131313;
   background-color: #413e3e;
@@ -174,7 +179,7 @@ body {
   margin: auto 0;
   padding: 30px 10px;
   background-color: #3692e7;
-  color: #fff;
+  color: var(--white);
   text-transform: uppercase;
   font-family: "Roboto", Sans-Serif;
   font-weight: 600;
@@ -189,14 +194,13 @@ body {
   margin-top: 10px;
   width: inherit;
   height: 10px;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 4px;
   padding: 1px;
 }
 
 .current-progress {
   width: 0;
-  background-color: green;
   height: inherit;
   border-radius: 4px;
 }
@@ -242,7 +246,6 @@ body {
   .right-sidebar-time-time {
     font-size: 48px;
   }
-
 }
 
 @media (max-width: 1218px) {

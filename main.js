@@ -1,12 +1,29 @@
-$(document).ready(function () {
-  def();
+let isTraining = false;
+let score = 0;
+const TIME_FOR_TRAINING = 30.0;
+const CURRENT_TIMER_VALUE = $(".right-sidebar-time-time");
+const CURRENT_SCORE_VALUE = $(".right-sidebar-score-score");
+const BUTTON_START = $(".button-start");
+const CELL = $(".cell");
+const COORDINATES = $(".coordinate"); //container for current and next coordinates
+const CURRENT_COORDINATE = $(".p-current-coord");
+const NEXT_COORDINATE = $(".p-next-coord");
+const CURRENT_PROGRESS = $(".current-progress"); //current progress for progressbar
+const COLOR_GREY_FOR_TEXT = "#bababa";
+const COLOR_RED_FOR_TEXT = "red";
+const COLOR_ORANGE_FOR_TEXT = "orange";
+const COLOR_GREEN_FOR_TEXT = "green";
 
-  function def() {
+$(document).ready(function () {
+  reset();
+
+  function reset() {
     isTraining = false;
-    $(".button-start").css("display", "block");
-    $(".coordinate").css("display", "none");
-    $(".right-sidebar-time-time").text("30.0");
-    $(".right-sidebar-time-time").css("color", "#bababa");
+    BUTTON_START.css("display", "block");
+    COORDINATES.css("display", "none");
+    CURRENT_TIMER_VALUE.text(TIME_FOR_TRAINING.toFixed(1));
+    CURRENT_TIMER_VALUE.css("color", COLOR_GREY_FOR_TEXT);
+    CURRENT_PROGRESS.css("background-color", COLOR_GREEN_FOR_TEXT);
   }
 
   function getRandomInt(max) {
@@ -27,51 +44,50 @@ $(document).ready(function () {
     return obj[getRandomInt(8)] + getRandomInt(8);
   }
 
-  $(".coordinate").css("display", "none");
-  $(".current-progress").css("width", 0);
-
-  $(".cell").click(function () {
-    if (isTraining) {
-      if ($(this).attr("id") == $(".p-current-coord").text()) {
-        score++;
-        $(".right-sidebar-score-score").text(score);
-        $(".p-current-coord").text($(".p-next-coord").text());
-        $(".p-next-coord").text(getRandomCoordinate());
-      } else {
-        let interval = 0;
-        let y = setInterval(function () {
-          $(".right-sidebar-score-score").css("color", "red");
-          $(".current-progress").css("background-color", "red");
-          interval += 200;
-          if (interval > 200) {
-            clearInterval(y);
-            $(".right-sidebar-score-score").css("color", "#bababa");
-            $(".current-progress").css("background-color", "green");
-          }
-        }, 200);
-      }
+  CELL.click(function () {
+    if (!isTraining) return false;
+    if ($(this).attr("id") == CURRENT_COORDINATE.text()) {
+      score++;
+      CURRENT_SCORE_VALUE.text(score);
+      CURRENT_COORDINATE.text(NEXT_COORDINATE.text());
+      NEXT_COORDINATE.text(getRandomCoordinate());
+    } else {
+      let interval = 0;
+      let y = setInterval(function () {
+        CURRENT_SCORE_VALUE.css("color", COLOR_RED_FOR_TEXT);
+        CURRENT_PROGRESS.css("background-color", COLOR_RED_FOR_TEXT);
+        interval += 200;
+        if (interval > 200) {
+          clearInterval(y);
+          CURRENT_SCORE_VALUE.css("color", COLOR_GREY_FOR_TEXT);
+          CURRENT_PROGRESS.css("background-color", COLOR_GREEN_FOR_TEXT);
+        }
+      }, 200);
     }
   });
 
-  $(".button-start").click(function () {
+  BUTTON_START.click(function () {
     isTraining = true;
     score = 0;
-    $(".right-sidebar-score-score").text(score);
-    $(".button-start").css("display", "none");
-    $(".p-current-coord").text(getRandomCoordinate());
-    $(".p-next-coord").text(getRandomCoordinate());
-    $(".coordinate").css("display", "flex");
-    let time = parseFloat($(".right-sidebar-time-time").text());
+    CURRENT_SCORE_VALUE.text(score);
+    BUTTON_START.css("display", "none");
+    CURRENT_COORDINATE.text(getRandomCoordinate());
+    NEXT_COORDINATE.text(getRandomCoordinate());
+    COORDINATES.css("display", "flex");
+    let time = parseFloat(CURRENT_TIMER_VALUE.text());
     let x = setInterval(function () {
-      $(".right-sidebar-time-time").text(time.toFixed(1));
-      $(".current-progress").css("width", ((30 - time) * 100) / 30 + "%");
+      CURRENT_TIMER_VALUE.text(time.toFixed(1));
+      CURRENT_PROGRESS.css(
+        "width",
+        ((TIME_FOR_TRAINING - time) * 100) / TIME_FOR_TRAINING + "%"
+      );
       time = time - 0.1;
       if (time.toFixed(1) < 10.0) {
-        $(".right-sidebar-time-time").css("color", "orange");
+        CURRENT_TIMER_VALUE.css("color", COLOR_ORANGE_FOR_TEXT);
       }
       if (time.toFixed(1) < 0) {
         clearInterval(x);
-        def();
+        reset();
       }
     }, 100);
   });
